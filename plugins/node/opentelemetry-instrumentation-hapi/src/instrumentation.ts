@@ -23,8 +23,7 @@ import {
   isWrapped,
 } from '@opentelemetry/instrumentation';
 
-// types for @hapi/hapi are published under @types/hapi__hapi
-import type * as Hapi from 'hapi__hapi';
+import type * as Hapi from '@hapi/hapi';
 import { VERSION } from './version';
 import {
   HapiComponentName,
@@ -56,11 +55,11 @@ export class HapiInstrumentation extends InstrumentationBase {
   protected init() {
     return new InstrumentationNodeModuleDefinition<typeof Hapi>(
       HapiComponentName,
-      ['>=17 <21'],
+      ['>=17 <22'],
       moduleExports => {
         if (!isWrapped(moduleExports.server)) {
           api.diag.debug('Patching Hapi.server');
-          this._wrap(moduleExports, 'server', this._getServerPatch.bind(this));
+          this._wrap(moduleExports, 'server', this._getServerPatch.bind(this) as any);
         }
 
         // Casting as any is necessary here due to an issue with the @types/hapi__hapi
@@ -149,12 +148,12 @@ export class HapiInstrumentation extends InstrumentationBase {
       if (Array.isArray(pluginInput)) {
         for (const pluginObj of pluginInput) {
           instrumentation._wrapRegisterHandler(
-            pluginObj.plugin?.plugin ?? pluginObj.plugin ?? pluginObj
+            pluginObj.plugin?.plugin as any ?? pluginObj.plugin ?? pluginObj
           );
         }
       } else {
         instrumentation._wrapRegisterHandler(
-          pluginInput.plugin?.plugin ?? pluginInput.plugin ?? pluginInput
+          pluginInput.plugin?.plugin as any ?? pluginInput.plugin ?? pluginInput
         );
       }
       return original.apply(this, [pluginInput, options]);

@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-// types for @hapi/hapi are published under @types/hapi__hapi
-import type * as Hapi from 'hapi__hapi';
+import type * as Hapi from '@hapi/hapi';
 
 export const HapiComponentName = '@hapi/hapi';
 
