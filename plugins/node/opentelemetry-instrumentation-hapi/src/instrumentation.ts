@@ -62,11 +62,11 @@ export class HapiInstrumentation extends InstrumentationBase {
           this._wrap(moduleExports, 'server', this._getServerPatch.bind(this) as any);
         }
 
-        // Casting as any is necessary here due to an issue with the @types/hapi__hapi
-        // type definition for Hapi.Server. Hapi.Server (note the uppercase) can also function
+        // Casting as any is necessary here due to an issue with the type
+        // definition for Hapi.Server. Hapi.Server (note the uppercase) can also function
         // as a factory function, similarly to Hapi.server (lowercase), and so should
-        // also be supported and instrumented. This is an issue with the DefinitelyTyped repo.
-        // Function is defined at: https://github.com/hapijs/hapi/blob/main/lib/index.js#L9
+        // also be supported and instrumented.
+        // Function is defined at: https://github.com/hapijs/hapi/blob/master/lib/index.js#L9
         if (!isWrapped(moduleExports.Server)) {
           api.diag.debug('Patching Hapi.Server');
           this._wrap(
