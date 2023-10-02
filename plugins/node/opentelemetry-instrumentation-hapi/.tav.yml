@@ -1,0 +1,4 @@
+"@hapi/hapi":
+  - versions: "17.9.4 || 20.3.0 || 21.3.2"
+    pretest: npm run --prefix ../../../ lerna:link
+    commands: npm run test
